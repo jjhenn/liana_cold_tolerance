@@ -38,7 +38,8 @@ PEL <- samples %>%
   filter(PEL_LT50 < 0) %>% 
   mutate(SLA = (area_cm2/(dry_mass/1000))) %>% 
   mutate(LDMC = (dry_mass/wet_mass)) %>% 
-  filter(spp != "PATR")
+  filter(spp != "PATR") %>% 
+  mutate(bio6 = (bio6-(mean(bio6)))/sd(bio6))
 
 sc <- samples %>% 
   full_join(supercooling) %>%
@@ -47,7 +48,8 @@ sc <- samples %>%
   mutate(ldmc = sc_dry_mass/sc_wet_mass) %>% 
   filter(spp != "PATR") %>% 
   filter(sc_wet_mass > 0) %>% 
-  filter(spp != "VIRI")
+  filter(spp != "VIRI") %>% 
+  mutate(bio6 = (bio6-(mean(bio6)))/sd(bio6))
 
 plot(PEL_LT50 ~ bio6, data = PEL, col = spp.y)
 
