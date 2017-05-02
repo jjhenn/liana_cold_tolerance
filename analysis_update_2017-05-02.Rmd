@@ -59,7 +59,7 @@ sc <- samples %>%
   mutate(bio6 = (bio6-(mean(bio6)))/sd(bio6))
 ```
 
-## plots of PEL and supercooling by bio6
+## plots!!
 
 ```{r plots,}
 PEL %>% 
