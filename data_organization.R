@@ -52,9 +52,20 @@ sc <- samples %>%
 plot(PEL_LT50 ~ bio6, data = PEL, col = spp.y)
 
 
-test <- lmer(PEL_LT50 ~ latitude*spp + spp*LDMC + (1|population)
+m.pel <- lmer(PEL_LT50 ~ latitude + spp + (1|population)
              , data = PEL)
-s.test <- step(test)
+m.pel1 <- lmer(PEL_LT50 ~ latitude*spp + (1|population)
+               , data = PEL)
+s.test <- step(m.pel)
+
+
+m.sc <- lmer(sc_temp ~ bio6 + (1|population), data = sc)
+sc.test <- step(m.sc)
+
+sc.means <- sc %>% 
+  group_by(population) %>% 
+  summarize(mean = mean(sc_temp, na.rm = T)) %>% 
+  full_join(xy)
 
 means <- PEL %>% 
   group_by(population) %>% 
@@ -62,4 +73,4 @@ means <- PEL %>%
   full_join(xy)
 
 plot(ldmc ~ latitude, col = spp, data = means)
-test <- lm(log(-mean) ~ latitude*spp + spp*ldmc, data = means)
+test <- lm(mean ~ latitude*spp + spp*ldmc, data = means)
